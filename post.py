@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from typing import Dict
 import requests
 import json
 from datetime import datetime
@@ -18,7 +19,7 @@ mydata = {
         { 'x': 200.0, 'y': 30.0, 'z': 0.0 },
         { 'x': 350.0, 'y': 120.0, 'z': 0.0 },
     ],
-    'resolution': { k: 2**4 for k in 'xyz' },
+    'resolution': { k: 2**3 for k in 'xyz' },
     'me': {'x': 100.0, 'y': 80.0, 'z': 0.0},
     'others': [
         {'x': 130.0, 'y': 50.0, 'z': 0.0},
@@ -39,20 +40,25 @@ mydata = {
 #     ],
 # }
 
-start = datetime.now()
 
-print("Making query ...")
-r = requests.post(f'{API_URL}/PolygonToCellMap', json=mydata)
+def partitionRequest(route: str, data: Dict):
+    start = datetime.now()
 
-print("Parsing JSON ... ({})".format(datetime.now() - start))
-jdata = json.loads(r.text)
+    print("Making query ...")
+    r = requests.post(f'{API_URL}/{route}', json=data)
 
-end = datetime.now()
+    print("Parsing JSON ... ({})".format(datetime.now() - start))
+    jdata = json.loads(r.text)
+
+    end = datetime.now()
+
+    total = end - start
+    print(r, 'Time elapsed: {}'.format(total))
+
+    print("{} cells were processed.".format(len(jdata['cells'])))
+    for d in jdata['cells'][:10]:
+        print(d)
 
 
-total = end - start
-print(r, 'Time elapsed: {}'.format(total))
-
-print("{} cells were processed.".format(len(jdata['cells'])))
-for d in jdata['cells'][:10]:
-    print(d)
+if __name__ == '__main__':
+    partitionRequest('PolygonToCellMap', mydata)
