@@ -8,18 +8,18 @@ import os
 
 API_URL = os.environ.get('PARTITION_API_URL')
 if not API_URL:
-    print("PARTITION_API_URL environment variable not set.")
-    print("Cannot access the API as a result.")
-    print("Exiting.")
+    print('PARTITION_API_URL environment variable not set.')
+    print('Cannot access the API as a result.')
+    print('Exiting.')
     exit(1)
 
 mydata = {
     'vertices': [
-        { 'x': 50.0, 'y': 100.0, 'z': 0.0 },
-        { 'x': 200.0, 'y': 30.0, 'z': 0.0 },
-        { 'x': 350.0, 'y': 120.0, 'z': 0.0 },
+        {'x': 50.0, 'y': 100.0, 'z': 0.0},
+        {'x': 200.0, 'y': 30.0, 'z': 0.0},
+        {'x': 350.0, 'y': 120.0, 'z': 0.0},
     ],
-    'resolution': { k: 2**3 for k in 'xyz' },
+    'resolution': {k: 2**3 for k in 'xyz'},
     'me': {'x': 100.0, 'y': 80.0, 'z': 0.0},
     'others': [
         {'x': 130.0, 'y': 50.0, 'z': 0.0},
@@ -45,22 +45,22 @@ def partitionRequest(route: str, data: Dict):
     start = datetime.now()
 
     r = requests.post(f'{API_URL}/{route}', json=data)
-    print("Made query ... ({})".format(datetime.now() - start))
+    print('Made query ... ({})'.format(datetime.now() - start))
 
     if r.status_code != 200:
-        print("Error occurred:", r)
+        print('Error occurred:', r)
         print(r.text)
         return
 
     jdata = json.loads(r.text)
-    print("Parsed JSON ({})".format(datetime.now() - start))
+    print('Parsed JSON ({})'.format(datetime.now() - start))
 
     end = datetime.now()
 
     total = end - start
     print(r, 'Time elapsed: {}'.format(total))
 
-    print("{} cells were processed.".format(len(jdata['cells'])))
+    print('{} cells were processed.'.format(len(jdata['cells'])))
     for d in jdata['cells'][:10]:
         print(d)
 
