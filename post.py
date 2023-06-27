@@ -67,3 +67,6 @@ def partitionRequest(route: str, data: Dict):
 
 if __name__ == '__main__':
     partitionRequest('PolygonToCellMap', mydata)
+    # partitionRequest('PolygonToCellMapFrontiers', mydata)
+    # input()
+    # partitionRequest('PolygonToCellMapContours', mydata)
