@@ -5,6 +5,7 @@ import requests
 import json
 from datetime import datetime
 import os
+from itertools import combinations
 
 API_URL = os.environ.get('PARTITION_API_URL')
 if not API_URL:
@@ -20,29 +21,33 @@ mydata = {
         {'x': 350.0, 'y': 120.0, 'z': 0.0},
     ],
     'resolution': {k: 2**3 for k in 'xyz'},
-    'me': {
+    'me': None,
+    'others': None,
+}
+
+positions = [
+    {
+        'position': {'x': 100.0, 'y': 80.0, 'z': 0.0},
+        'factors': {'speed': 15.0},
+    },
+    {
+        'position': {'x': 160.0, 'y': 60.0, 'z': 0.0},
+        'factors': {'speed': 5.0},
+    },
+    {
         'position': {'x': 200.0, 'y': 75.0, 'z': 0.0},
         'factors': {'speed': 7.0},
     },
-    'others': [
-        {
-            'position': {'x': 100.0, 'y': 80.0, 'z': 0.0},
-            'factors': {'speed': 15.0},
-        },
-        {
-            'position': {'x': 160.0, 'y': 60.0, 'z': 0.0},
-            'factors': {'speed': 5.0},
-        },
-        {
-            'position': {'x': 230.0, 'y': 100.0, 'z': 0.0},
-            'factors': {'speed': 5.0},
-        },
-        {
-            'position': {'x': 300.0, 'y': 40.0, 'z': 0.0},
-            'factors': {'speed': 17.0},
-        },
-    ],
-}
+    {
+        'position': {'x': 230.0, 'y': 100.0, 'z': 0.0},
+        'factors': {'speed': 5.0},
+    },
+    {
+        'position': {'x': 300.0, 'y': 40.0, 'z': 0.0},
+        'factors': {'speed': 17.0},
+    },
+]
+
 
 # mydata = {
 #     'vertices': [
@@ -83,7 +88,12 @@ def partitionRequest(route: str, data: Dict):
 
 
 if __name__ == '__main__':
-    # partitionRequest('PolygonToCellMap', mydata)
-    partitionRequest('PolygonToCellMapFrontiers', mydata)
-    # input()
-    # partitionRequest('PolygonToCellMapContours', mydata)
+    for other_positions in combinations(positions, len(positions) - 1):
+        mydata['me'] = [p for p in positions if p not in other_positions][0]
+        mydata['others'] = other_positions
+        print(mydata['me'])
+        print(mydata['others'])
+        # partitionRequest('PolygonToCellMap', mydata)
+        partitionRequest('PolygonToCellMapFrontiers', mydata)
+        input()
+        # partitionRequest('PolygonToCellMapContours', mydata)
