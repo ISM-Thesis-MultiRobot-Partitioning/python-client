@@ -44,16 +44,16 @@ mydata = {
 def partitionRequest(route: str, data: Dict):
     start = datetime.now()
 
-    print("Making query ...")
     r = requests.post(f'{API_URL}/{route}', json=data)
+    print("Made query ... ({})".format(datetime.now() - start))
 
     if r.status_code != 200:
         print("Error occurred:", r)
         print(r.text)
         return
 
-    print("Parsing JSON ... ({})".format(datetime.now() - start))
     jdata = json.loads(r.text)
+    print("Parsed JSON ({})".format(datetime.now() - start))
 
     end = datetime.now()
 
