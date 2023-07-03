@@ -2,6 +2,7 @@
 
 from multiprocessing import shared_memory, Semaphore
 import post
+from time import sleep
 
 MEM_BLOCK_NAME = 'polygon_to_cellmap.json'
 MEM_BLOCK_SIZE = 64
@@ -15,6 +16,7 @@ if __name__ == '__main__':
 
     print(shm)
 
-    post.partitionRequest('PolygonToCellMapShm', post.mydata)
+    # post.partitionRequest('PolygonToCellMapShm', post.mydata)
+    sleep(10)
 
     shm.unlink()
