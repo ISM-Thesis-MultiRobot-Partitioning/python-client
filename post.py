@@ -14,17 +14,6 @@ if not API_URL:
     print('Exiting.')
     exit(1)
 
-mydata = {
-    'vertices': [
-        {'x': 50.0, 'y': 100.0, 'z': 0.0},
-        {'x': 200.0, 'y': 30.0, 'z': 0.0},
-        {'x': 350.0, 'y': 120.0, 'z': 0.0},
-    ],
-    'resolution': {k: 2**3 for k in 'xyz'},
-    'me': None,
-    'others': None,
-}
-
 positions = [
     {
         'position': {'x': 100.0, 'y': 80.0, 'z': 0.0},
@@ -47,6 +36,17 @@ positions = [
         'factors': {'speed': 17.0},
     },
 ]
+
+mydata = {
+    'vertices': [
+        {'x': 50.0, 'y': 100.0, 'z': 0.0},
+        {'x': 200.0, 'y': 30.0, 'z': 0.0},
+        {'x': 350.0, 'y': 120.0, 'z': 0.0},
+    ],
+    'resolution': {k: 2**3 for k in 'xyz'},
+    'me': positions[0],
+    'others': positions[1:],
+}
 
 
 # mydata = {
