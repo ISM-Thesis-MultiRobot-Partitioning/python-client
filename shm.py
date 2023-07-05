@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     print(shm)
 
-    # post.partitionRequest('PolygonToCellMapShm', post.mydata)
-    sleep(10)
+    post.partitionRequest('PolygonToCellMapShm', post.mydata)
+    # sleep(10)
 
     shm.unlink()
